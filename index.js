@@ -54,7 +54,7 @@ app.post("/shorten", async (req, res) => {
         await newLink.save();
 
         res.json({
-            shortUrl: `http://localhost:3000/${shortCode}`
+            shortUrl: `https://${req.get("host")}/${shortCode}`
         });
 
     } catch (error) {
