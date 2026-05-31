@@ -42,6 +42,14 @@ app.post("/shorten", async (req, res) => {
                 message: "Please enter URL"
             });
         }
+        if (!originalUrl.startsWith("http://") &&
+    !originalUrl.startsWith("https://")) {
+
+    return res.status(400).json({
+        message: "Invalid URL"
+    });
+
+}
 
         const shortCode = shortid.generate();
 
