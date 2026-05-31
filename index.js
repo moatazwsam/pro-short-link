@@ -9,7 +9,7 @@ const Url = require("./models/Url");
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const app = express();
-
+const jwt = require("jsonwebtoken");
 app.use(express.json());
 app.use(express.static("public"));
 
