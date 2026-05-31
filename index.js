@@ -6,7 +6,8 @@ const shortid = require("shortid");
 const path = require("path");
 
 const Url = require("./models/Url");
-
+const User = require("./models/User");
+const bcrypt = require("bcryptjs");
 const app = express();
 
 app.use(express.json());
@@ -28,7 +29,50 @@ mongoose.connect(process.env.MONGO_URI, {
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-
+app.post("/register", async (req, res) => {
+    try {
+    
+        const { username, email, password } = req.body;
+    
+        const existingUser = await User.findOne({
+            email
+        });
+    
+        if (existingUser) {
+    
+            return res.status(400).json({
+                message: "Email already exists"
+            });
+    
+        }
+    
+        const hashedPassword =
+        await bcrypt.hash(password, 10);
+    
+        const newUser = new User({
+    
+            username,
+            email,
+            password: hashedPassword
+    
+        });
+    
+        await newUser.save();
+    
+        res.json({
+            message: "Registration successful"
+        });
+    
+    } catch (error) {
+    
+        console.log(error);
+    
+        res.status(500).json({
+            message: "Server Error"
+        });
+    
+    }
+    });
 
 // Create Short Link
 app.post("/shorten", async (req, res) => {
