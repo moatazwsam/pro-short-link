@@ -119,8 +119,9 @@ try {
     res.json({
 
         message: "Login Successful",
-        token
-
+        token,
+        username: user.username
+    
     });
 
 } catch (error) {

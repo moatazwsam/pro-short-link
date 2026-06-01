@@ -28,6 +28,16 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,.1)}
 <div class="container">
 <div class="top-box">
 <h1>🔥 Pro Short Link</h1>
+<div
+id="welcomeUser"
+style="
+text-align:center;
+margin-bottom:15px;
+font-size:20px;
+font-weight:bold;
+display:none;
+">
+</div>
 <div id="authBox" style="margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;">
 
     <input
@@ -212,6 +222,11 @@ if(data.token){
         "token",
         data.token
     );
+    localStorage.setItem(
+    "username",
+    data.username
+);
+    
 
     alert("Login Successful ✅");
 
@@ -272,20 +287,40 @@ function logoutUser(){
 
 localStorage.removeItem("token");
 
+localStorage.removeItem("username");
+
 alert("Logged Out ✅");
 
 location.reload();
 
 }
+
 function checkLogin(){
 
-const token = localStorage.getItem("token");
+const token =
+localStorage.getItem("token");
+
+const username =
+localStorage.getItem("username");
 
 if(token){
 
-    document.getElementById("authBox").style.display = "none";
+    document.getElementById(
+        "authBox"
+    ).style.display = "none";
 
-    document.getElementById("logoutBtn").style.display = "inline-block";
+    document.getElementById(
+        "logoutBtn"
+    ).style.display = "inline-block";
+
+    document.getElementById(
+        "welcomeUser"
+    ).style.display = "block";
+
+    document.getElementById(
+        "welcomeUser"
+    ).innerText =
+    `Welcome, ${username} 👋`;
 
 }
 
