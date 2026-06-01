@@ -141,8 +141,16 @@ async function loadLinks(){
 }
 
 async function deleteLink(id){
- await fetch(`/delete/${id}`,{method:"DELETE"});
- loadLinks();
+
+await fetch(`/delete/${id}`,{
+    method:"DELETE",
+    headers:{
+        "Authorization": localStorage.getItem("token")
+    }
+});
+
+loadLinks();
+
 }
 async function registerUser(){
 const username =

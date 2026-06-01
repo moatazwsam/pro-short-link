@@ -209,9 +209,24 @@ app.get("/links", auth, async (req, res) => {
 
 
 // Delete Link
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete/:id", auth, async (req, res) => {
 
     try {
+
+        const link = await Url.findOne({
+
+            _id: req.params.id,
+            userId: req.user.userId
+
+        });
+
+        if (!link) {
+
+            return res.status(404).json({
+                message: "Link not found"
+            });
+
+        }
 
         await Url.findByIdAndDelete(req.params.id);
 
@@ -230,7 +245,6 @@ app.delete("/delete/:id", async (req, res) => {
     }
 
 });
-
 
 // Redirect Link
 app.get("/:code", async (req, res) => {
