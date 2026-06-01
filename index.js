@@ -11,6 +11,7 @@ const bcrypt = require("bcryptjs");
 const app = express();
 const jwt = require("jsonwebtoken");
 app.use(express.json());
+const auth = require("./middleware/auth");
 app.use(express.static("public"));
 
 
@@ -133,7 +134,7 @@ try {
 }
 });
 // Create Short Link
-app.post("/shorten", async (req, res) => {
+app.post("/shorten", auth, async (req, res) => {
 
     try {
 
@@ -158,6 +159,7 @@ app.post("/shorten", async (req, res) => {
         const newLink = new Url({
             originalUrl,
             shortCode,
+            userId: req.user.userId,
             clicks: 0
         });
 
@@ -181,11 +183,13 @@ app.post("/shorten", async (req, res) => {
 
 
 // Get All Links
-app.get("/links", async (req, res) => {
+app.get("/links", auth, async (req, res) => {
 
     try {
 
-        const links = await Url.find().sort({
+        const links = await Url.find({
+            userId: req.user.userId
+        }).sort({
             createdAt: -1
         });
 

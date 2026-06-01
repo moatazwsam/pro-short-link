@@ -28,7 +28,12 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,.1)}
 <div class="container">
 <div class="top-box">
 <h1>🔥 Pro Short Link</h1>
-
+<div style="margin-bottom:20px;">
+    Register
+    </button>
+    Login
+    </button>
+    </div>
 <div class="input-group">
 <input type="text" id="urlInput" placeholder="Paste your link here...">
 <button class="main-btn" onclick="shortenLink()">Shorten</button>
@@ -60,7 +65,10 @@ async function shortenLink(){
  const originalUrl=document.getElementById("urlInput").value;
  const response=await fetch("/shorten",{
   method:"POST",
-  headers:{"Content-Type":"application/json"},
+  headers:{
+    "Content-Type":"application/json",
+    "Authorization": localStorage.getItem("token")
+},
   body:JSON.stringify({originalUrl})
  });
  const data=await response.json();
@@ -76,7 +84,11 @@ function copyLink(){
 }
 
 async function loadLinks(){
- const response=await fetch("/links");
+    const response = await fetch("/links",{
+    headers:{
+        "Authorization": localStorage.getItem("token")
+    }
+});
  const links=await response.json();
  const table=document.getElementById("linksTable");
  table.innerHTML="";
@@ -100,7 +112,77 @@ async function deleteLink(id){
  await fetch(`/delete/${id}`,{method:"DELETE"});
  loadLinks();
 }
+async function registerUser(){
+const username =
+document.getElementById("username").value;
 
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+const response = await fetch("/register",{
+
+    method:"POST",
+
+    headers:{
+        "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+        username,
+        email,
+        password
+    })
+
+});
+
+const data = await response.json();
+
+alert(data.message);
+}
+async function loginUser(){
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+const response = await fetch("/login",{
+
+    method:"POST",
+
+    headers:{
+        "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+        email,
+        password
+    })
+
+});
+
+const data = await response.json();
+
+if(data.token){
+
+    localStorage.setItem(
+        "token",
+        data.token
+    );
+
+    alert("Login Successful ✅");
+
+    loadLinks();
+
+}else{
+
+    alert(data.message);
+
+}
+}
 loadLinks();
 </script>
 </body>
