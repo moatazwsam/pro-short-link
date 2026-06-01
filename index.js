@@ -11,7 +11,7 @@ const bcrypt = require("bcryptjs");
 const app = express();
 const jwt = require("jsonwebtoken");
 app.use(express.json());
-const auth = require("./middleware/auth");
+const auth = require("./models/middleware/auth");
 app.use(express.static("public"));
 
 
