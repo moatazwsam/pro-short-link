@@ -28,11 +28,35 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,.1)}
 <div class="container">
 <div class="top-box">
 <h1>🔥 Pro Short Link</h1>
-<div style="margin-bottom:20px;">
+<div style="margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;">
+
+    <input
+    type="text"
+    id="username"
+    placeholder="Username">
+    
+    <input
+    type="email"
+    id="email"
+    placeholder="Email">
+    
+    <input
+    type="password"
+    id="password"
+    placeholder="Password">
+    
+    <button
+    class="main-btn"
+    onclick="registerUser()">
     Register
     </button>
+    
+    <button
+    class="main-btn"
+    onclick="loginUser()">
     Login
     </button>
+    
     </div>
 <div class="input-group">
 <input type="text" id="urlInput" placeholder="Paste your link here...">
@@ -182,6 +206,49 @@ if(data.token){
     alert(data.message);
 
 }
+}
+async function deleteLink(id){
+
+await fetch(`/delete/${id}`,{
+    method:"DELETE",
+    headers:{
+        "Authorization": localStorage.getItem("token")
+    }
+});
+
+loadLinks();
+}
+
+async function registerUser(){
+
+const username =
+document.getElementById("username").value;
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+const response = await fetch("/register",{
+
+    method:"POST",
+
+    headers:{
+        "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+        username,
+        email,
+        password
+    })
+
+});
+
+const data = await response.json();
+
+alert(data.message);
 }
 loadLinks();
 </script>
