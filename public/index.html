@@ -104,22 +104,65 @@ Logout
 
 <script>
 async function shortenLink(){
- const originalUrl=document.getElementById("urlInput").value;
- const response=await fetch("/shorten",{
-  method:"POST",
-  headers:{
-    "Content-Type":"application/json",
-    "Authorization": localStorage.getItem("token")
-},
-  body:JSON.stringify({originalUrl})
- });
- const data=await response.json();
- document.getElementById("shortLink").href=data.shortUrl;
- document.getElementById("shortLink").innerText=data.shortUrl;
- document.getElementById("result").style.display="block";
- loadLinks();
+
+const token =
+localStorage.getItem("token");
+
+if(!token){
+
+   alert("Please Login First");
+
+   return;
+
 }
 
+const originalUrl =
+document.getElementById("urlInput").value;
+
+const response = await fetch("/shorten",{
+
+ method:"POST",
+
+ headers:{
+   "Content-Type":"application/json",
+   "Authorization": token
+ },
+
+ body:JSON.stringify({
+   originalUrl
+ })
+
+});
+
+const data = await response.json();
+
+if(data.message){
+
+   if(!data.shortUrl){
+
+       alert(data.message);
+
+       return;
+
+   }
+
+}
+
+document.getElementById(
+   "shortLink"
+).href = data.shortUrl;
+
+document.getElementById(
+   "shortLink"
+).innerText = data.shortUrl;
+
+document.getElementById(
+   "result"
+).style.display = "block";
+
+loadLinks();
+
+}
 function copyLink(){
  navigator.clipboard.writeText(document.getElementById("shortLink").innerText);
  alert("Copied ✅");
