@@ -56,7 +56,11 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,.1)}
     onclick="loginUser()">
     Login
     </button>
-    
+    <button
+class="delete-btn"
+onclick="logoutUser()">
+Logout
+</button>
     </div>
 <div class="input-group">
 <input type="text" id="urlInput" placeholder="Paste your link here...">
@@ -249,6 +253,15 @@ const response = await fetch("/register",{
 const data = await response.json();
 
 alert(data.message);
+}
+function logoutUser(){
+
+localStorage.removeItem("token");
+
+alert("Logged Out ✅");
+
+location.reload();
+
 }
 loadLinks();
 </script>
