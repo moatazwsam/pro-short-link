@@ -272,32 +272,40 @@ app.get("/ad/:code", async (req, res) => {
 
 });
 app.get("/go/:code", async (req, res) => {
+
     try {
-    
+
         const link = await Url.findOne({
             shortCode: req.params.code
         });
-    
+
         if (!link) {
-    
+
             return res.send("Link not found");
-    
+
         }
-    
+
+        // زيادة المشاهدات
         link.clicks += 1;
-    
+
+        // حساب الربح حسب CPM
+        const earningPerView = link.cpm / 1000;
+
+        link.earnings += earningPerView;
+
         await link.save();
-    
+
         res.redirect(link.originalUrl);
-    
+
     } catch (error) {
-    
+
         console.log(error);
-    
+
         res.send("Server Error");
-    
+
     }
-    });
+
+});
 // Redirect Link
 app.get("/:code", async (req, res) => {
 
