@@ -359,7 +359,7 @@ app.get("/stats", auth, async (req, res) => {
 
 });
 const PORT = process.env.PORT || 3000;
-app.get("/dashboard", auth, (req, res) => {
+app.get("/dashboard",(req, res) => {
 
     res.sendFile(
         path.join(__dirname, "public", "dashboard.html")
