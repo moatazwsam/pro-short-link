@@ -105,5 +105,46 @@ th,td{padding:15px;border-bottom:1px solid #e5e7eb;text-align:left}
 </tbody>
 </table>
 </div>
+<script>
+
+    async function loadStats() {
+    
+        try {
+    
+            const response = await fetch("/stats", {
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                }
+            });
+    
+            const data = await response.json();
+    
+            const cards = document.querySelectorAll(".card h2");
+    
+            cards[0].innerText = data.totalViews || 0;
+    
+            cards[1].innerText =
+                "$" + Number(data.totalEarnings || 0).toFixed(4);
+    
+            cards[2].innerText =
+                "$" + Number(data.averageCPM || 0).toFixed(2);
+    
+            cards[3].innerText =
+                data.totalLinks || 0;
+    
+            document.querySelector(".balance").innerText =
+                "$" + Number(data.totalEarnings || 0).toFixed(4);
+    
+        } catch (error) {
+    
+            console.log(error);
+    
+        }
+    
+    }
+    
+    loadStats();
+    
+    </script>
 </body>
 </html>
