@@ -246,9 +246,7 @@ app.delete("/delete/:id", auth, async (req, res) => {
     }
 
 });
-
-// Redirect Link
-app.get("/:code", async (req, res) => {
+app.get("/ad/:code", async (req, res) => {
 
     try {
 
@@ -260,11 +258,9 @@ app.get("/:code", async (req, res) => {
             return res.send("Link not found");
         }
 
-        link.clicks += 1;
-
-        await link.save();
-
-        res.redirect(link.originalUrl);
+        res.sendFile(
+            path.join(__dirname, "public", "ads.html")
+        );
 
     } catch (error) {
 
@@ -275,8 +271,39 @@ app.get("/:code", async (req, res) => {
     }
 
 });
+app.get("/go/:code", async (req, res) => {
+    try {
+    
+        const link = await Url.findOne({
+            shortCode: req.params.code
+        });
+    
+        if (!link) {
+    
+            return res.send("Link not found");
+    
+        }
+    
+        link.clicks += 1;
+    
+        await link.save();
+    
+        res.redirect(link.originalUrl);
+    
+    } catch (error) {
+    
+        console.log(error);
+    
+        res.send("Server Error");
+    
+    }
+    });
+// Redirect Link
+app.get("/:code", async (req, res) => {
 
+    res.redirect(`/ad/${req.params.code}`);
 
+});
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
