@@ -100,9 +100,13 @@ th,td{padding:15px;border-bottom:1px solid #e5e7eb;text-align:left}
 <thead>
 <tr><th>Short Link</th><th>Views</th><th>Earnings</th><th>Delete</th></tr>
 </thead>
-<tbody>
-<tr><td>No Links Yet</td><td>0</td><td>$0</td><td>-</td></tr>
-</tbody>
+<tbody id="linksTable">
+    <tr>
+    <td colspan="4">
+    Loading...
+    </td>
+    </tr>
+    </tbody>
 </table>
 </div>
 <script>
@@ -144,7 +148,113 @@ th,td{padding:15px;border-bottom:1px solid #e5e7eb;text-align:left}
     }
     
     loadStats();
-    
+    async function loadLinks() {
+
+try {
+
+    const response = await fetch("/my-links", {
+
+        headers: {
+            Authorization:
+            localStorage.getItem("token")
+        }
+
+    });
+
+    const links = await response.json();
+
+    const table =
+    document.getElementById("linksTable");
+
+    if (!links.length) {
+
+        table.innerHTML = `
+        <tr>
+            <td colspan="4">
+                No Links Yet
+            </td>
+        </tr>
+        `;
+
+        return;
+
+    }
+
+    table.innerHTML = "";
+
+    links.forEach(link => {
+
+        table.innerHTML += `
+        <tr>
+
+            <td>
+                https://${location.host}/s/${link.shortCode}
+            </td>
+
+            <td>
+                ${link.clicks}
+            </td>
+
+            <td>
+                $${Number(
+                    link.earnings || 0
+                ).toFixed(4)}
+            </td>
+
+            <td>
+                <button
+                class="delete-btn"
+                onclick="deleteLink('${link._id}')">
+                Delete
+                </button>
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+} catch (error) {
+
+    console.log(error);
+
+}
+
+}
+async function deleteLink(id) {
+
+if (!confirm("Delete this link?")) {
+
+    return;
+
+}
+
+try {
+
+    await fetch(`/delete/${id}`, {
+
+        method: "DELETE",
+
+        headers: {
+            Authorization:
+            localStorage.getItem("token")
+        }
+
+    });
+
+    loadLinks();
+
+    loadStats();
+
+} catch (error) {
+
+    console.log(error);
+
+}
+
+}
+loadStats();
+loadLinks();
     </script>
 </body>
 </html>

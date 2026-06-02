@@ -366,6 +366,27 @@ app.get("/dashboard",(req, res) => {
     );
 
 });
+app.get("/my-links", auth, async (req, res) => {
+
+    try {
+
+        const links = await Url.find({
+            userId: req.user.userId
+        }).sort({ createdAt: -1 });
+
+        res.json(links);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Server Error"
+        });
+
+    }
+
+});
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
