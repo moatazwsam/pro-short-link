@@ -167,7 +167,7 @@ app.post("/shorten", auth, async (req, res) => {
         await newLink.save();
 
         res.json({
-            shortUrl: `https://${req.get("host")}/${shortCode}`
+            shortUrl: `https://${req.get("host")}/s/${shortCode}`
         });
 
     } catch (error) {
@@ -307,9 +307,55 @@ app.get("/go/:code", async (req, res) => {
 
 });
 // Redirect Link
-app.get("/:code", async (req, res) => {
+app.get("/s/:code", async (req, res) => {
 
     res.redirect(`/ad/${req.params.code}`);
+
+});
+app.get("/stats", auth, async (req, res) => {
+
+    try {
+
+        const links = await Url.find({
+            userId: req.user.userId
+        });
+
+        const totalLinks = links.length;
+
+        const totalViews = links.reduce(
+            (sum, link) => sum + link.clicks,
+            0
+        );
+
+        const totalEarnings = links.reduce(
+            (sum, link) => sum + link.earnings,
+            0
+        );
+
+        const averageCPM =
+            totalLinks > 0
+                ? links.reduce(
+                      (sum, link) => sum + link.cpm,
+                      0
+                  ) / totalLinks
+                : 0;
+
+        res.json({
+            totalLinks,
+            totalViews,
+            totalEarnings,
+            averageCPM
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Server Error"
+        });
+
+    }
 
 });
 const PORT = process.env.PORT || 3000;
