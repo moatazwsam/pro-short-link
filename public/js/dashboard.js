@@ -1,16 +1,15 @@
+function showSection(sectionId){
 
-function showSection(section){
-        
     document
     .querySelectorAll(".section")
-    .forEach(item => {
+    .forEach(section => {
     
-    item.classList.remove("active");
+    section.classList.remove("active");
     
     });
     
     document
-    .getElementById(section)
+    .getElementById(sectionId)
     .classList.add("active");
     
     }
@@ -19,15 +18,12 @@ function showSection(section){
     
     try{
     
-    const response = await fetch(
-    "/stats",
-    {
+    const response = await fetch("/stats",{
     headers:{
     Authorization:
     localStorage.getItem("token")
     }
-    }
-    );
+    });
     
     const data =
     await response.json();
@@ -58,6 +54,14 @@ function showSection(section){
     ).innerText =
     data.totalLinks || 0;
     
+    document.getElementById(
+    "balanceAmount"
+    ).innerText =
+    "$" +
+    Number(
+    data.totalEarnings || 0
+    ).toFixed(4);
+    
     }catch(error){
     
     console.log(error);
@@ -71,15 +75,14 @@ function showSection(section){
     try{
     
     const response =
-    await fetch(
-    "/my-links",
-    {
+    await fetch("/my-links",{
+    
     headers:{
     Authorization:
     localStorage.getItem("token")
     }
-    }
-    );
+    
+    });
     
     const links =
     await response.json();
@@ -105,7 +108,7 @@ function showSection(section){
     
     table.innerHTML = "";
     
-    links.forEach(link=>{
+    links.forEach(link => {
     
     table.innerHTML += `
     <tr>
@@ -149,41 +152,6 @@ function showSection(section){
     
     }
     
-    async function deleteLink(id){
-    
-    if(
-    !confirm(
-    "Delete this link?"
-    )
-    ){
-    return;
-    }
-    
-    try{
-    
-    await fetch(
-    `/delete/${id}`,
-    {
-    method:"DELETE",
-    
-    headers:{
-    Authorization:
-    localStorage.getItem("token")
-    }
-    }
-    );
-    
-    loadLinks();
-    loadStats();
-    
-    }catch(error){
-    
-    console.log(error);
-    
-    }
-    
-    }
-    
     async function createLink(){
     
     const originalUrl =
@@ -202,9 +170,8 @@ function showSection(section){
     try{
     
     const response =
-    await fetch(
-    "/shorten",
-    {
+    await fetch("/shorten",{
+    
     method:"POST",
     
     headers:{
@@ -218,19 +185,30 @@ function showSection(section){
     body:JSON.stringify({
     originalUrl
     })
-    }
-    );
+    
+    });
     
     const data =
     await response.json();
+    
+    if(data.message &&
+    !data.shortUrl){
+    
+    alert(data.message);
+    
+    return;
+    
+    }
     
     document.getElementById(
     "newLinkResult"
     ).innerHTML = `
     
+    <p>
     ✅ Link Created
+    </p>
     
-    <br><br>
+    <br>
     
     <a href="${data.shortUrl}"
     target="_blank">
@@ -256,13 +234,79 @@ function showSection(section){
     
     }
     
+    async function deleteLink(id){
+    
+    if(
+    !confirm(
+    "Delete this link?"
+    )
+    ){
+    return;
+    }
+    
+    try{
+    
+    await fetch(`/delete/${id}`,{
+    
+    method:"DELETE",
+    
+    headers:{
+    Authorization:
+    localStorage.getItem("token")
+    }
+    
+    });
+    
+    loadLinks();
+    loadStats();
+    
+    }catch(error){
+    
+    console.log(error);
+    
+    }
+    
+    }
+    
+    function logoutUser(){
+    
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    
+    window.location.href = "/";
+    
+    }
+    
+    function checkLogin(){
+    
+    const token =
+    localStorage.getItem("token");
+    
+    if(!token){
+    
+    window.location.href = "/";
+    
+    return;
+    
+    }
+    
+    const username =
+    localStorage.getItem("username");
+    
+    const userElement =
+    document.getElementById(
+    "userName"
+    );
+    
+    if(userElement){
+    
+    userElement.innerText =
+    username || "User";
+    
+    }
+    
+    }
+    
+    checkLogin();
     loadStats();
     loadLinks();
-    function logout() {
-
-        localStorage.removeItem("token");
-        
-        window.location.href = "/";
-        
-        }
-    

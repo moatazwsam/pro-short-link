@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -10,188 +9,195 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>Pro Short Link Dashboard</title>
-<link rel="stylesheet" href="/css/dashboard.css">
+
+<link rel="stylesheet"
+href="css/dashboard.css">
+
 </head>
 
 <body>
 
-    <div class="menu">
+<div class="sidebar">
 
-        <a onclick="showSection('dashboardSection')">
+    <div class="logo">
+        🔥 Pro Short Link
+    </div>
+
+    <ul>
+
+        <li onclick="showSection('dashboard')">
         📊 Dashboard
-        </a>
-        
-        <a onclick="showSection('linksSection')">
-        🔗 My Links
-        </a>
-        
-        <a onclick="showSection('createSection')">
+        </li>
+
+        <li onclick="showSection('create')">
         ➕ Create Link
-        </a>
-        
-        <a onclick="showSection('reportsSection')">
+        </li>
+
+        <li onclick="showSection('links')">
+        🔗 My Links
+        </li>
+
+        <li onclick="showSection('reports')">
         📈 Reports
-        </a>
-        
-        <a onclick="showSection('withdrawSection')">
+        </li>
+
+        <li onclick="showSection('withdraw')">
         💰 Withdrawals
-        </a>
-        
-        <a onclick="showSection('settingsSection')">
-        ⚙️ Settings
-        </a>
-        
-        <a onclick="logout()">
+        </li>
+
+        <li onclick="showSection('settings')">
+        ⚙ Settings
+        </li>
+
+        <li onclick="logoutUser()">
         🚪 Logout
-        </a>
-        
-        </div>
-    
-    </div>
-    
-    <div class="main">
-    
-    <div id="dashboardSection" class="section active">
-    
-    <div class="header">
-    
-    <h1>
-    Welcome Back 👋
-    </h1>
-    
-    </div>
-    
-    <div class="cards">
-    
-    <div class="card">
-    <h3>Total Views</h3>
-    <h2 id="totalViews">0</h2>
-    </div>
-    
-    <div class="card">
-    <h3>Total Earnings</h3>
-    <h2 id="totalEarnings">$0.00</h2>
-    </div>
-    
-    <div class="card">
-    <h3>Average CPM</h3>
-    <h2 id="averageCPM">$0</h2>
-    </div>
-    
-    <div class="card">
-    <h3>Total Links</h3>
-    <h2 id="totalLinks">0</h2>
-    </div>
-    
-    </div>
-    
-    </div>
-    
-    <div id="createSection" class="section">
-    
-    <div class="box">
-    
-    <h2>
-    ➕ Create New Link
-    </h2>
-    
-    <br>
-    
-    <input
-    id="urlInput"
-    type="text"
-    placeholder="https://example.com">
-    
-    <button
-    class="main-btn"
-    onclick="createLink()">
-    Create Link </button>
-    
-    <br><br>
-    
-    <div id="newLinkResult">
-    </div>
-    
-    </div>
-    
-    </div>
-    
-    <div id="linksSection" class="section">
-    
-    <h2 style="margin-bottom:15px">
-    🔗 My Links
-    </h2>
-    
-    <table>
-    
-    <thead>
-    
-    <tr>
-    
-    <th>Short Link</th>
-    <th>Views</th>
-    <th>Earnings</th>
-    <th>Delete</th>
-    
-    </tr>
-    
-    </thead>
-    
-    <tbody id="linksTable">
-    
-    <tr>
-    
-    <td colspan="4">
-    
-    Loading...
-    
-    </td>
-    
-    </tr>
-    
-    </tbody>
-    
-    </table>
-    
-    </div>
-    <div id="reportsSection" class="section">
+        </li>
 
-        <div class="box">
-        
-        <h2>📈 Reports</h2>
-        
-        <p>Reports system coming soon...</p>
-        
-        </div>
-        
-        </div>
-        
-        <div id="withdrawSection" class="section">
-        
-        <div class="box">
-        
-        <h2>💰 Withdrawals</h2>
-        
-        <p>Withdrawal system coming soon...</p>
-        
-        </div>
-        
-        </div>
-        
-        <div id="settingsSection" class="section">
-        
-        <div class="box">
-        
-        <h2>⚙️ Settings</h2>
-        
-        <p>Settings panel coming soon...</p>
-        
-        </div>
-        
-        </div>
-    </div>
-    <script src="/js/dashboard.js"></script>
-    </body>
-    
+    </ul>
 
+</div>
+
+<div class="content">
+
+    <div id="dashboard"
+    class="section active">
+
+        <h1>
+        Welcome Back 👋
+        </h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Views</h3>
+                <h2 id="totalViews">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Total Earnings</h3>
+                <h2 id="totalEarnings">$0.00</h2>
+            </div>
+
+            <div class="card">
+                <h3>Average CPM</h3>
+                <h2 id="averageCPM">$0.00</h2>
+            </div>
+
+            <div class="card">
+                <h3>Total Links</h3>
+                <h2 id="totalLinks">0</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="create"
+    class="section">
+
+        <h2>Create Link</h2>
+
+        <input
+        id="urlInput"
+        type="text"
+        placeholder="https://example.com">
+
+        <button
+        onclick="createLink()">
+        Create Link
+        </button>
+
+        <div id="newLinkResult">
+        </div>
+
+    </div>
+
+    <div id="links"
+    class="section">
+
+        <h2>
+        My Links
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Link</th>
+                    <th>Views</th>
+                    <th>Earnings</th>
+                    <th>Delete</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="linksTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="reports"
+    class="section">
+
+        <h2>
+        Reports
+        </h2>
+
+        <div class="reportBox">
+
+            Detailed statistics
+            coming soon
+
+        </div>
+
+    </div>
+
+    <div id="withdraw"
+    class="section">
+
+        <h2>
+        Withdrawals
+        </h2>
+
+        <div class="reportBox">
+
+            Current Balance:
+
+            <span id="balanceAmount">
+            $0.00
+            </span>
+
+        </div>
+
+    </div>
+
+    <div id="settings"
+    class="section">
+
+        <h2>
+        Settings
+        </h2>
+
+        <div class="reportBox">
+
+            Username:
+            <span id="userName">
+            -
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/dashboard.js"></script>
+
+</body>
 </html>
