@@ -1,0 +1,261 @@
+
+function showSection(section){
+        
+    document
+    .querySelectorAll(".section")
+    .forEach(item => {
+    
+    item.classList.remove("active");
+    
+    });
+    
+    document
+    .getElementById(section)
+    .classList.add("active");
+    
+    }
+    
+    async function loadStats(){
+    
+    try{
+    
+    const response = await fetch(
+    "/stats",
+    {
+    headers:{
+    Authorization:
+    localStorage.getItem("token")
+    }
+    }
+    );
+    
+    const data =
+    await response.json();
+    
+    document.getElementById(
+    "totalViews"
+    ).innerText =
+    data.totalViews || 0;
+    
+    document.getElementById(
+    "totalEarnings"
+    ).innerText =
+    "$" +
+    Number(
+    data.totalEarnings || 0
+    ).toFixed(4);
+    
+    document.getElementById(
+    "averageCPM"
+    ).innerText =
+    "$" +
+    Number(
+    data.averageCPM || 0
+    ).toFixed(2);
+    
+    document.getElementById(
+    "totalLinks"
+    ).innerText =
+    data.totalLinks || 0;
+    
+    }catch(error){
+    
+    console.log(error);
+    
+    }
+    
+    }
+    
+    async function loadLinks(){
+    
+    try{
+    
+    const response =
+    await fetch(
+    "/my-links",
+    {
+    headers:{
+    Authorization:
+    localStorage.getItem("token")
+    }
+    }
+    );
+    
+    const links =
+    await response.json();
+    
+    const table =
+    document.getElementById(
+    "linksTable"
+    );
+    
+    if(!links.length){
+    
+    table.innerHTML = `
+    <tr>
+    <td colspan="4">
+    No Links Yet
+    </td>
+    </tr>
+    `;
+    
+    return;
+    
+    }
+    
+    table.innerHTML = "";
+    
+    links.forEach(link=>{
+    
+    table.innerHTML += `
+    <tr>
+    
+    <td>
+    https://${location.host}/s/${link.shortCode}
+    </td>
+    
+    <td>
+    ${link.clicks}
+    </td>
+    
+    <td>
+    $${Number(
+    link.earnings || 0
+    ).toFixed(4)}
+    </td>
+    
+    <td>
+    
+    <button
+    class="delete-btn"
+    onclick="deleteLink('${link._id}')">
+    
+    Delete
+    
+    </button>
+    
+    </td>
+    
+    </tr>
+    `;
+    
+    });
+    
+    }catch(error){
+    
+    console.log(error);
+    
+    }
+    
+    }
+    
+    async function deleteLink(id){
+    
+    if(
+    !confirm(
+    "Delete this link?"
+    )
+    ){
+    return;
+    }
+    
+    try{
+    
+    await fetch(
+    `/delete/${id}`,
+    {
+    method:"DELETE",
+    
+    headers:{
+    Authorization:
+    localStorage.getItem("token")
+    }
+    }
+    );
+    
+    loadLinks();
+    loadStats();
+    
+    }catch(error){
+    
+    console.log(error);
+    
+    }
+    
+    }
+    
+    async function createLink(){
+    
+    const originalUrl =
+    document.getElementById(
+    "urlInput"
+    ).value;
+    
+    if(!originalUrl){
+    
+    alert("Enter URL");
+    
+    return;
+    
+    }
+    
+    try{
+    
+    const response =
+    await fetch(
+    "/shorten",
+    {
+    method:"POST",
+    
+    headers:{
+    "Content-Type":
+    "application/json",
+    
+    Authorization:
+    localStorage.getItem("token")
+    },
+    
+    body:JSON.stringify({
+    originalUrl
+    })
+    }
+    );
+    
+    const data =
+    await response.json();
+    
+    document.getElementById(
+    "newLinkResult"
+    ).innerHTML = `
+    
+    ✅ Link Created
+    
+    <br><br>
+    
+    <a href="${data.shortUrl}"
+    target="_blank">
+    
+    ${data.shortUrl}
+    
+    </a>
+    
+    `;
+    
+    document.getElementById(
+    "urlInput"
+    ).value = "";
+    
+    loadLinks();
+    loadStats();
+    
+    }catch(error){
+    
+    console.log(error);
+    
+    }
+    
+    }
+    
+    loadStats();
+    loadLinks();
+    
