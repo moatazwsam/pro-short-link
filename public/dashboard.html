@@ -44,7 +44,13 @@ href="css/dashboard.css">
         <li onclick="showSection('withdraw')">
         💰 Withdrawals
         </li>
-
+        <a onclick="showSection('referralSection')">
+            👥 Referrals
+            </a>
+            
+            <a onclick="showSection('withdrawSection')">
+            💸 Withdraw
+            </a>
         <li onclick="showSection('settings')">
         ⚙ Settings
         </li>
@@ -96,10 +102,31 @@ href="css/dashboard.css">
                 <canvas id="statsChart"></canvas>
                 
                 </div>
+                <div class="card">
+                    <h3>Today's Views</h3>
+                    <h2 id="todayViews">0</h2>
+                    </div>
+                    
+                    <div class="card">
+                    <h3>Today's Earnings</h3>
+                    <h2 id="todayEarnings">$0.00</h2>
+                    </div>
         </div>
 
     </div>
+    <div class="box" style="margin-bottom:20px;">
 
+        <h2>🏆 Best Link</h2>
+        
+        <br>
+        
+        <div id="bestLink">
+        
+        No Data Yet
+        
+        </div>
+        
+        </div>
     <div id="create"
     class="section">
 
@@ -149,7 +176,66 @@ href="css/dashboard.css">
         </table>
 
     </div>
+    <div id="referralSection" class="section">
 
+        <div class="box">
+        
+        <h2>👥 Referral Program</h2>
+        
+        <br>
+        
+        <p>Your Referral Link:</p>
+        
+        <br>
+        
+        <input
+        id="referralLink"
+        readonly>
+        
+        <br>
+        
+        <p>
+        Total Referrals:
+        <span id="totalReferrals">0</span>
+        </p>
+        
+        <br>
+        
+        <p>
+        Referral Earnings:
+        $
+        <span id="referralEarnings">0.00</span>
+        </p>
+        
+        </div>
+        
+        </div>
+        <div id="withdrawSection" class="section">
+
+            <div class="box">
+            
+            <h2>💸 Withdraw Funds</h2>
+            
+            <br>
+            
+            <input
+            id="walletAddress"
+            placeholder="Wallet Address">
+            
+            <input
+            id="withdrawAmount"
+            placeholder="Amount">
+            
+            <button
+            class="main-btn">
+            
+            Request Withdrawal
+            
+            </button>
+            
+            </div>
+            
+            </div>
     <div id="reports"
     class="section">
 

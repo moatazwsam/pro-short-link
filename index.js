@@ -321,6 +321,25 @@ app.get("/stats", auth, async (req, res) => {
         });
 
         const totalLinks = links.length;
+        const todayViews = links.reduce(
+            (sum, link) => sum + (link.todayViews || 0),
+            0
+            );
+            
+            const todayEarnings = links.reduce(
+            (sum, link) => sum + (link.todayEarnings || 0),
+            0
+            );
+            
+            let bestLink = null;
+            
+            if (links.length > 0) {
+            
+            bestLink = links.reduce((a,b)=>
+            a.clicks > b.clicks ? a : b
+            );
+            
+            }
 
         const totalViews = links.reduce(
             (sum, link) => sum + link.clicks,
@@ -340,12 +359,23 @@ app.get("/stats", auth, async (req, res) => {
                   ) / totalLinks
                 : 0;
 
-        res.json({
-            totalLinks,
-            totalViews,
-            totalEarnings,
-            averageCPM
-        });
+                res.json({
+
+                    totalLinks,
+                    
+                    totalViews,
+                    
+                    totalEarnings,
+                    
+                    averageCPM,
+                    
+                    todayViews,
+                    
+                    todayEarnings,
+                    
+                    bestLink
+                    
+                    });
 
     } catch (error) {
 

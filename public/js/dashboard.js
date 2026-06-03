@@ -53,7 +53,39 @@ function showSection(sectionId){
     "totalLinks"
     ).innerText =
     data.totalLinks || 0;
-    
+    document.getElementById(
+        "todayViews"
+        ).innerText =
+        data.todayViews || 0;
+        
+        document.getElementById(
+        "todayEarnings"
+        ).innerText =
+        "$" +
+        Number(
+        data.todayEarnings || 0
+        ).toFixed(4);
+        if(data.bestLink){
+
+            document.getElementById(
+            "bestLink"
+            ).innerHTML = `
+            
+            <a
+            href="https://${location.host}/s/${data.bestLink.shortCode}"
+            target="_blank">
+            
+            https://${location.host}/s/${data.bestLink.shortCode}
+            
+            </a>
+            
+            <br><br>
+            
+            ${data.bestLink.clicks} Views
+            
+            `;
+            
+            }
     document.getElementById(
     "balanceAmount"
     ).innerText =
