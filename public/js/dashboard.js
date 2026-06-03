@@ -258,4 +258,11 @@ function showSection(section){
     
     loadStats();
     loadLinks();
+    function logout() {
+
+        localStorage.removeItem("token");
+        
+        window.location.href = "/";
+        
+        }
     

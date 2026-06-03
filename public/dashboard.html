@@ -15,31 +15,37 @@ content="width=device-width, initial-scale=1.0">
 
 <body>
 
-    <div class="sidebar">
-    
-    <div class="logo">
-    🔥 Pro Short Link
-    </div>
-    
     <div class="menu">
-    
-    <a onclick="showSection('dashboardSection')">
-    📊 Dashboard
-    </a>
-    
-    <a onclick="showSection('linksSection')">
-    🔗 My Links
-    </a>
-    
-    <a onclick="showSection('createSection')">
-    ➕ Create Link
-    </a>
-    
-    <a href="/">
-    🚪 Logout
-    </a>
-    
-    </div>
+
+        <a onclick="showSection('dashboardSection')">
+        📊 Dashboard
+        </a>
+        
+        <a onclick="showSection('linksSection')">
+        🔗 My Links
+        </a>
+        
+        <a onclick="showSection('createSection')">
+        ➕ Create Link
+        </a>
+        
+        <a onclick="showSection('reportsSection')">
+        📈 Reports
+        </a>
+        
+        <a onclick="showSection('withdrawSection')">
+        💰 Withdrawals
+        </a>
+        
+        <a onclick="showSection('settingsSection')">
+        ⚙️ Settings
+        </a>
+        
+        <a onclick="logout()">
+        🚪 Logout
+        </a>
+        
+        </div>
     
     </div>
     
@@ -148,7 +154,41 @@ content="width=device-width, initial-scale=1.0">
     </table>
     
     </div>
-    
+    <div id="reportsSection" class="section">
+
+        <div class="box">
+        
+        <h2>📈 Reports</h2>
+        
+        <p>Reports system coming soon...</p>
+        
+        </div>
+        
+        </div>
+        
+        <div id="withdrawSection" class="section">
+        
+        <div class="box">
+        
+        <h2>💰 Withdrawals</h2>
+        
+        <p>Withdrawal system coming soon...</p>
+        
+        </div>
+        
+        </div>
+        
+        <div id="settingsSection" class="section">
+        
+        <div class="box">
+        
+        <h2>⚙️ Settings</h2>
+        
+        <p>Settings panel coming soon...</p>
+        
+        </div>
+        
+        </div>
     </div>
     <script src="/js/dashboard.js"></script>
     </body>
