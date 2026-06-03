@@ -310,3 +310,55 @@ function showSection(sectionId){
     checkLogin();
     loadStats();
     loadLinks();
+    async function loadChart(){
+
+        const ctx =
+        document.getElementById(
+        "statsChart"
+        );
+        
+        if(!ctx) return;
+        
+        new Chart(ctx,{
+        
+        type:"bar",
+        
+        data:{
+        
+        labels:[
+        "Views",
+        "Links"
+        ],
+        
+        datasets:[{
+        
+        label:"Statistics",
+        
+        data:[
+        
+        Number(
+        document.getElementById(
+        "totalViews"
+        ).innerText
+        ),
+        
+        Number(
+        document.getElementById(
+        "totalLinks"
+        ).innerText
+        )
+        
+        ]
+        
+        }]
+        
+        }
+        
+        });
+        
+        }
+        
+        setTimeout(
+        loadChart,
+        1000
+        );
