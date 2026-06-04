@@ -309,13 +309,9 @@ app.get("/go/:code", async (req, res) => {
             
             }
             
-            const earningPerView =
-            link.cpm / 1000;
-            
-            link.todayViews += 1;
-            
-            link.todayEarnings +=
-            earningPerView;
+            link.clicks += 1;
+
+            await link.save();
 
         link.earnings += earningPerView;
 
@@ -347,15 +343,21 @@ app.get("/stats", auth, async (req, res) => {
         });
 
         const totalLinks = links.length;
-        const todayViews = links.reduce(
-            (sum, link) => sum + (link.todayViews || 0),
-            0
-            );
-            
-            const todayEarnings = links.reduce(
-            (sum, link) => sum + (link.todayEarnings || 0),
-            0
-            );
+
+const totalViews = links.reduce(
+    (sum, link) => sum + (link.clicks || 0),
+    0
+);
+
+const totalEarnings = links.reduce(
+    (sum, link) => sum + (link.earnings || 0),
+    0
+);
+
+const averageCPM =
+totalViews > 0
+? (totalEarnings / totalViews) * 1000
+: 0;
             
             let bestLink = null;
             
@@ -367,23 +369,7 @@ app.get("/stats", auth, async (req, res) => {
             
             }
 
-        const totalViews = links.reduce(
-            (sum, link) => sum + link.clicks,
-            0
-        );
-
-        const totalEarnings = links.reduce(
-            (sum, link) => sum + link.earnings,
-            0
-        );
-
-        const averageCPM =
-            totalLinks > 0
-                ? links.reduce(
-                      (sum, link) => sum + link.cpm,
-                      0
-                  ) / totalLinks
-                : 0;
+        
 
                 res.json({
 
