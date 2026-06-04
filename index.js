@@ -155,14 +155,25 @@ app.post("/shorten", auth, async (req, res) => {
 
 }
 
-        const shortCode = shortid.generate();
+const newLink = new Url({
 
-        const newLink = new Url({
-            originalUrl,
-            shortCode,
-            userId: req.user.userId,
-            clicks: 0
-        });
+    originalUrl,
+    
+    shortCode,
+    
+    userId:req.user.userId,
+    
+    clicks:0,
+    
+    cpm:0,
+    
+    earnings:0,
+    
+    todayViews:0,
+    
+    todayEarnings:0
+    
+    });
 
         await newLink.save();
 
@@ -289,7 +300,22 @@ app.get("/go/:code", async (req, res) => {
         link.clicks += 1;
 
         // حساب الربح حسب CPM
-        const earningPerView = link.cpm / 1000;
+        if(link.cpm === 0){
+
+            link.cpm =
+            Math.floor(
+            Math.random() * 6
+            ) + 2;
+            
+            }
+            
+            const earningPerView =
+            link.cpm / 1000;
+            
+            link.todayViews += 1;
+            
+            link.todayEarnings +=
+            earningPerView;
 
         link.earnings += earningPerView;
 
@@ -417,6 +443,11 @@ app.get("/my-links", auth, async (req, res) => {
     }
 
 });
+app.get("/ref/:username",(req,res)=>{
+
+    res.redirect("/");
+    
+    });
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

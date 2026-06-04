@@ -2,30 +2,43 @@ const mongoose = require("mongoose");
 
 const urlSchema = new mongoose.Schema({
 
-    originalUrl: String,
+originalUrl: String,
 
-    shortCode: String,
+shortCode: String,
 
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
+userId: {
+type: mongoose.Schema.Types.ObjectId,
+ref: "User"
+},
 
-    clicks: {
-        type: Number,
-        default: 0
-    },
+clicks: {
+type: Number,
+default: 0
+},
 
-    earnings: {
-        type: Number,
-        default: 0
-    },
+earnings: {
+type: Number,
+default: 0
+},
 
-    cpm: {
-        type: Number,
-        default: 5
-    }
+cpm: {
+type: Number,
+default: 0
+},
 
-}, { timestamps: true });
+todayViews: {
+type: Number,
+default: 0
+},
 
-module.exports = mongoose.model("Url", urlSchema);
+todayEarnings: {
+type: Number,
+default: 0
+}
+
+},{
+timestamps:true
+});
+
+module.exports =
+mongoose.model("Url",urlSchema);

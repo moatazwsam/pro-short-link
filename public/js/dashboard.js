@@ -1,3 +1,10 @@
+const token = localStorage.getItem("token");
+
+if(!token){
+
+window.location.href = "/";
+
+}
 function showSection(sectionId){
 
     document
@@ -27,7 +34,20 @@ function showSection(sectionId){
     
     const data =
     await response.json();
-    
+    const username =
+localStorage.getItem("username");
+
+const referralInput =
+document.getElementById(
+"referralLink"
+);
+
+if(referralInput){
+
+referralInput.value =
+`${location.origin}/ref/${username}`;
+
+}
     document.getElementById(
     "totalViews"
     ).innerText =
@@ -301,13 +321,12 @@ function showSection(sectionId){
     }
     
     function logoutUser(){
-    
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    
-    window.location.href = "/";
-    
-    }
+
+        localStorage.clear();
+        
+        window.location.replace("/");
+        
+        }
     
     function checkLogin(){
     
