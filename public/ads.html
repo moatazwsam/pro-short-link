@@ -1,98 +1,75 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Advertisement</title>
 
 <style>
-
 body{
 background:#0f172a;
 color:white;
-font-family:Arial,Helvetica,sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+font-family:Arial,sans-serif;
 margin:0;
 padding:20px;
 }
 
-.box{
-background:#1e293b;
-padding:30px;
-border-radius:20px;
+.container{
+max-width:1000px;
+margin:auto;
 text-align:center;
-width:100%;
-max-width:900px;
-box-shadow:0 0 20px rgba(0,0,0,.3);
 }
 
-#adBox{
+.ad-box{
 background:white;
-padding:20px;
+padding:15px;
 border-radius:15px;
-color:black;
-margin-bottom:20px;
+margin:20px 0;
 }
 
-.banner728{
-margin:20px auto;
-display:flex;
-justify-content:center;
+.timer{
+font-size:28px;
+font-weight:bold;
+margin:20px 0;
 }
 
-.banner300{
-margin:20px auto;
-display:flex;
-justify-content:center;
-}
-
-h2{
-margin-top:20px;
-}
-
-button{
-padding:12px 30px;
+#continueBtn{
+display:none;
+padding:14px 35px;
+font-size:20px;
 border:none;
 border-radius:10px;
 background:#2563eb;
 color:white;
-font-size:18px;
 cursor:pointer;
-display:none;
 }
 
-button:hover{
+#continueBtn:hover{
 opacity:.9;
 }
-
 </style>
 
 </head>
-
 <body>
 
-<div class="box">
+<div class="container">
 
 <h1>Advertisement</h1>
 
-<div id="adBox">
-
 <!-- Native Banner -->
+<div class="ad-box">
 
-<script async="async" data-cfasync="false" src="https://pl29637398.effectivecpmnetwork.com/9eb780f10b1431432645540d47e47333/invoke.js"></script>
+<script async="async"
+data-cfasync="false"
+src="https://pl29637398.effectivecpmnetwork.com/9eb780f10b1431432645540d47e47333/invoke.js"></script>
 
 <div id="container-9eb780f10b1431432645540d47e47333"></div>
 
 </div>
 
-<div class="banner728">
+<!-- Banner 728x90 -->
+
+<div class="ad-box">
 
 <script>
 atOptions = {
@@ -108,7 +85,9 @@ atOptions = {
 
 </div>
 
-<div class="banner300">
+<!-- Banner 300x250 -->
+
+<div class="ad-box">
 
 <script>
 atOptions = {
@@ -124,13 +103,13 @@ atOptions = {
 
 </div>
 
-<h2 id="timer">
+<div class="timer" id="timer">
 
 Please wait 5 seconds...
 
-</h2>
+</div>
 
-<button id="skipBtn">
+<button id="continueBtn">
 
 Continue
 
@@ -148,32 +127,40 @@ Continue
 
 <script>
 
+// Smart Direct Link
+
+window.onload = function(){
+
 window.open(
 "https://www.effectivecpmnetwork.com/zdmb4mpn?key=7885b2d967d3faf589ba4318c1b01219",
 "_blank"
 );
 
+};
+
+// Countdown
+
 const code =
 window.location.pathname.split("/")[2];
 
-let time = 5;
+let seconds = 5;
 
 const timer =
 document.getElementById("timer");
 
 const btn =
-document.getElementById("skipBtn");
+document.getElementById("continueBtn");
 
-const countdown = setInterval(()=>{
+const interval = setInterval(()=>{
 
-time--;
+seconds--;
 
 timer.innerText =
-`Please wait ${time} seconds...`;
+`Please wait ${seconds} seconds...`;
 
-if(time <= 0){
+if(seconds <= 0){
 
-clearInterval(countdown);
+clearInterval(interval);
 
 timer.innerText =
 "Ready";
@@ -195,5 +182,4 @@ window.location.href =
 </script>
 
 </body>
-
 </html>
