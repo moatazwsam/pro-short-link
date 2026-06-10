@@ -417,6 +417,13 @@ app.get("/my-links", auth, async (req, res) => {
     }
 
 });
+app.get("/smart-test", (req, res) => {
+
+    res.redirect(
+        "https://www.effectivecpmnetwork.com/gbbz8ecu?key=7abfa1c54dcb3fd8f121d7b9fcb69bb8"
+    );
+
+});
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
